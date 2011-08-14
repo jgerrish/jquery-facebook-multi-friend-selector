@@ -74,7 +74,14 @@
 			excluded_friends_graph = arrayToObjectGraph(settings.exclude_friends),
             all_friends;
             
-        FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
+//        FB.api('/me/friends?fields=' + settings.friend_fields, function(response) {
+        $.ajax({
+            url: settings.url, type: 'get', dataType: 'json',
+            beforeSend : function(xhr){
+                xhr.setRequestHeader("Accept", "application/json")
+            },
+            success: function(response){
+
             var sortedFriendData = response.data.sort(settings.sorter),
                 preselectedFriends = {},
                 buffer = [],
@@ -97,6 +104,7 @@
             });
 
             init();
+          }
         });
         
         
